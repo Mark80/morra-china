@@ -11,7 +11,7 @@ public class Partita{
  
 
 
- public void addGiocatore(Player player){
+ void addGiocatore(Player player){
  	try {
  	giocatori[numeroGiocatori] = player;
  	numeroGiocatori++;
