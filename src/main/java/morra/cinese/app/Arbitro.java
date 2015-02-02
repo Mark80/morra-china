@@ -17,8 +17,8 @@ public class Arbitro{
     
   	Mano giocataUno = uno.ultimaGiocata();
   	Mano giocataDue = due.ultimaGiocata();
-    if(giocataUno == giocataDue) return Nessuno.getNessuno(); 
-  	if(giocataUno.getVinceSu()==giocataDue) return uno;
+    if(giocataUno == giocataDue) return Nessuno.getNessuno();
+  	if(giocataUno.getVinceSu()==giocataDue || giocataDue == Mano.NESSUNA) return uno;
   	else return due;
   }
 

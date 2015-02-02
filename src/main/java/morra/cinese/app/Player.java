@@ -8,7 +8,7 @@ public class Player{
 
 
   private final String nome ;
-  private Mano giocata;
+  private Mano giocata = Mano.NESSUNA;
 
   public Player(String nome){
   	if(nome==null) throw new IllegalArgumentException("Non sono ammessi giocatori anonimi!!!!");

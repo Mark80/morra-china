@@ -155,6 +155,18 @@ public class TestMorra {
       Player winner = Arbitro.theWinnerIs(partita);
       assertTrue(winner ==  uno);
    }
+
+   @Test
+   public void inUnaPartitaconUnGiocatoreVinceSuUnGiocatoreCheNonFaGiocata(){
+      Player uno =new Player("Marco");
+      Player due =new Player("Paola");
+      Partita partita = new Partita();
+      uno.partecipa(partita);
+      due.partecipa(partita);
+      uno.gioca(SASSO);
+      Player winner = Arbitro.theWinnerIs(partita);
+      assertTrue(winner ==  uno);
+   }
    
 
 
