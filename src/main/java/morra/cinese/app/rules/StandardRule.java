@@ -9,14 +9,12 @@ import morra.cinese.app.giocate.Giocata;
  */
 public class StandardRule implements  Rule {
 
-    private static Player nessuno = Nessuno.getNessuno();
-
     public Player getWinner(Player uno, Player due) {
         Giocata giocataUno = uno.ultimaGiocata();
         Giocata giocataDue = due.ultimaGiocata();
         Player vincitore;
         if (isStessaGiocata(giocataUno, giocataDue)){
-            vincitore =  nessuno;
+            vincitore =   Nessuno.getNessuno();
         }else {
             if (giocataUno.vinceSu(giocataDue)) {
                 vincitore = uno;
