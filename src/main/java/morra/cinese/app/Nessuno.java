@@ -2,7 +2,7 @@
 package morra.cinese.app;
 
 
- final class Nessuno extends Player {
+ public final class Nessuno extends Player {
 
    private static Player nessuno= new Nessuno(); 
 

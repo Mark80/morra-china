@@ -1,13 +1,11 @@
 package morra.cinese.app;
 
-import static morra.cinese.app.giocate.Mano.CARTA;
-import static morra.cinese.app.giocate.Mano.FORBICE;
-import static morra.cinese.app.giocate.Mano.SASSO;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import morra.cinese.app.rules.StandardRule;
+import org.junit.Before;
 import org.junit.Test;
-
 
 /**
  * Unit test
@@ -16,12 +14,15 @@ public class TestMorra {
 
 
    private static final Player NESSUNO = Nessuno.getNessuno();
+   private Player uno;
+   private Player due;
+   private Player tre;
 
-@Test 
-   public void possoCreareUnaGiocata(){   
-    assertNotNull(FORBICE);
-    assertNotNull(SASSO);
-    assertNotNull(CARTA);
+
+   @Before
+   public void setUp(){
+      uno =new Player("Marco");
+      due = new Player("Paola");
    }
 
 
@@ -39,26 +40,13 @@ public class TestMorra {
 
 
    @Test
-   public void unGiocatorePuoFareGiocate(){
-    Player uno =new Player("Marco");
-    uno.gioca(FORBICE);
-    assertTrue(FORBICE == uno.ultimaGiocata());
-    uno.gioca(SASSO);
-    assertTrue(SASSO == uno.ultimaGiocata());
-    uno.gioca(CARTA);
-    assertTrue(CARTA == uno.ultimaGiocata());
-   }
-
-
-   @Test
    public void siPossonoOrganizzarePartite(){
    Partita partita = new Partita();
    assertNotNull(partita);
    }
 
    @Test
-   public void unGiocatorePuoPartecipareAdUnaPartita(){   
-      Player uno =new Player("Marco");
+   public void unGiocatorePuoPartecipareAdUnaPartita(){
       Partita partita = new Partita();
       uno.partecipa(partita);
       Player giocatore=partita.primoGiocatore();
@@ -67,12 +55,8 @@ public class TestMorra {
    }
 
    @Test
-   public void dueGiocatoriPossonoPartecipareAdUnaPartita(){   
-      Player uno =new Player("Marco");
-      Player due =new Player("Paola");
-      Partita partita = new Partita();
-      uno.partecipa(partita);
-      due.partecipa(partita);
+   public void dueGiocatoriPossonoPartecipareAdUnaPartita(){
+      Partita partita = creaPartitaConPartecipanti();
       Player giocatoreUno=partita.primoGiocatore();
       Player giocatoreDue=partita.secondoGiocatore();
       assertTrue(uno == giocatoreUno);
@@ -81,13 +65,9 @@ public class TestMorra {
    }
 
    @Test(expected=ArrayIndexOutOfBoundsException.class) 
-   public void treGiocatoriNonPossonoPartecipareAdUnaPartita(){   
-      Player uno =new Player("Marco");
-      Player due =new Player("Paola");
-      Player tre =new Player("Seba");
-      Partita partita = new Partita();
-      uno.partecipa(partita);
-      due.partecipa(partita);
+   public void treGiocatoriNonPossonoPartecipareAdUnaPartita(){
+      tre = new Player("Seba");
+      Partita partita = creaPartitaConPartecipanti();
       tre.partecipa(partita);
    }
 
@@ -95,79 +75,71 @@ public class TestMorra {
 
    @Test
    public void laCartaBatteIlSasso(){
-      Player uno =new Player("Marco");
-      Player due =new Player("Paola");
-      Partita partita = new Partita();
-      uno.partecipa(partita);
-      due.partecipa(partita);
-      uno.gioca(SASSO);
-      due.gioca(CARTA);
-      Player winner = Arbitro.theWinnerIs(partita);
+      Partita partita = creaPartitaConPartecipanti();
+      uno.giocaSasso();
+      due.giocaCarta();
+      Player winner = getVincitore(partita);
       assertTrue(winner == due);
    }
 
 
    @Test
    public void laForbiceBatteLaCarta(){
-      Player uno =new Player("Marco");
-      Player due =new Player("Paola");
-      Partita partita = new Partita();
-      uno.partecipa(partita);
-      due.partecipa(partita);
-      uno.gioca(FORBICE);
-      due.gioca(CARTA);
-      Player winner = Arbitro.theWinnerIs(partita);
-      assertTrue(winner == uno);
+      Partita partita = creaPartitaConPartecipanti();
+      uno.giocaForbice();
+      due.giocaCarta();
+      Player winner = getVincitore(partita);
+     assertTrue(winner == uno);
    }
 
    @Test
    public void ilSaddoBatteLaforbice(){
-      Player uno =new Player("Marco");
-      Player due =new Player("Paola");
-      Partita partita = new Partita();
-      uno.partecipa(partita);
-      due.partecipa(partita);
-      uno.gioca(FORBICE);
-      due.gioca(SASSO);
-      Player winner = Arbitro.theWinnerIs(partita);
+      Partita partita = creaPartitaConPartecipanti();
+      uno.giocaForbice();
+      due.giocaSasso();
+      Player winner = getVincitore(partita);
       assertTrue(winner == due);
    }
 
-  @Test
+
+   @Test
    public void ilSassoPareggiaConIlSasso(){
-      Player uno =new Player("Marco");
-      Player due =new Player("Paola");
-      Partita partita = new Partita();
-      uno.partecipa(partita);
-      due.partecipa(partita);
-      uno.gioca(SASSO);
-      due.gioca(SASSO);
-      Player winner = Arbitro.theWinnerIs(partita);
+      Partita partita = creaPartitaConPartecipanti();
+      uno.giocaSasso();
+      due.giocaSasso();
+      Player winner = getVincitore(partita);
       assertTrue(winner ==  NESSUNO);
    }
 
-  @Test
+
+   @Test
    public void inUnaPartitaconUnGiocatoreVinceQuelGiocatore(){
-      Player uno =new Player("Marco");
       Partita partita = new Partita();
       uno.partecipa(partita);
-      uno.gioca(SASSO);
-      Player winner = Arbitro.theWinnerIs(partita);
+      uno.giocaSasso();
+     Player winner = getVincitore(partita);
       assertTrue(winner ==  uno);
    }
 
    @Test
    public void inUnaPartitaconUnGiocatoreVinceSuUnGiocatoreCheNonFaGiocata(){
-      Player uno =new Player("Marco");
-      Player due =new Player("Paola");
+      Partita partita = creaPartitaConPartecipanti();
+      uno.giocaSasso();
+      Player winner = getVincitore(partita);
+      assertTrue(winner == uno);
+   }
+
+
+   private Player getVincitore(Partita partita) {
+      Arbitro arbitro = new Arbitro(new StandardRule());
+      return arbitro.theWinnerIs(partita);
+   }
+
+   private Partita creaPartitaConPartecipanti() {
       Partita partita = new Partita();
       uno.partecipa(partita);
       due.partecipa(partita);
-      uno.gioca(SASSO);
-      Player winner = Arbitro.theWinnerIs(partita);
-      assertTrue(winner ==  uno);
+      return partita;
    }
-   
-
 
 }

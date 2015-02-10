@@ -1,14 +1,14 @@
 
 package morra.cinese.app;
 
-import morra.cinese.app.giocate.Mano;
+import morra.cinese.app.giocate.*;
 
 
 public class Player{
 
 
   private final String nome ;
-  private Mano giocata = Mano.NESSUNA;
+  private Giocata giocata = new Nessuna();
 
   public Player(String nome){
   	if(nome==null) throw new IllegalArgumentException("Non sono ammessi giocatori anonimi!!!!");
@@ -19,16 +19,17 @@ public class Player{
   public void partecipa(Partita partita){
      partita.addGiocatore(this);
   }
-
   public String getNome(){
     return this.nome;
   }
-
-  public void gioca(Mano mano){    
-     this.giocata= mano;
+  public void giocaCarta(){
+    this.giocata= new Carta();
   }
-
-  public Mano ultimaGiocata(){
+  public void giocaSasso(){this.giocata= new Sasso();}
+  public void giocaForbice(){
+    this.giocata= new Forbice();
+  }
+  public Giocata ultimaGiocata(){
   	return giocata;
   }
 
