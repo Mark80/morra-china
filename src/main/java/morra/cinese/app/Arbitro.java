@@ -1,6 +1,5 @@
 package morra.cinese.app;
 
-import morra.cinese.app.giocate.Giocata;
 import morra.cinese.app.rules.Rule;
 
 public class Arbitro {
@@ -10,8 +9,6 @@ public class Arbitro {
     public  Arbitro(Rule rules) {
         this.rules = rules;
     }
-
-    public  Arbitro() {}
 
 
     public Player theWinnerIs(Partita partita) {
